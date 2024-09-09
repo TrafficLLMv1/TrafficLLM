@@ -2,7 +2,7 @@
 
 The repository of **TrafficLLM**, a universal LLM adaptation framework to learn robust traffic representation for all open-sourced LLM in real-world scenarios and enhance the generalization across diverse traffic analysis tasks.
 
-![TrafficLLM's framework](images/fig3-trafficllm-framework.pdf)
+![TrafficLLM's framework](images/fig3-trafficllm-framework.png)
 
 Note: this code is based on [ChatGLM2](https://github.com/THUDM/ChatGLM2-6B) and [Llama2](https://github.com/meta-llama/llama-recipes). Many thanks to the authors.
 
