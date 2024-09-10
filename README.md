@@ -205,8 +205,6 @@ python ea-peft.py --model_name /Your/Base/Model/Path --tuning_data /Your/New/Dat
 
 <span id='chapter-3.1'/>
 
-### {#chapter-3}
-
 #### 3.1 Preparing Checkpoints and Data <a href='#all_catelogue'>[Back to Top]</a>
 
 * **Checkpoints:** You could try to evaluate TrafficLLM by using your own model or our released checkpoints.
@@ -234,4 +232,7 @@ python evaluation.py --model_name /Your/Base/Model/Path --traffic_task detection
 
 ## Acknowledgements
 
-Many thanks to the related work [ChatGLM2](https://github.com/THUDM/ChatGLM2-6B) and [Llama2](https://github.com/meta-llama/llama-recipes) that serves as foundations for our framework and code repository. The design of building TrafficLLM is inspired by [ET-BERT](https://github.com/linwhitehat/ET-BERT) and [GraphGPT](https://github.com/HKUDS/GraphGPT). Thanks for their wonderful works.
+Many thanks to the related work [ChatGLM2](https://github.com/THUDM/ChatGLM2-6B) and [Llama2](https://github.com/meta-llama/llama-recipes) that serves as foundations for our framework and codes. The design of building TrafficLLM is inspired by [ET-BERT](https://github.com/linwhitehat/ET-BERT) and [GraphGPT](https://github.com/HKUDS/GraphGPT). Thanks for their wonderful works.
+
+
+
