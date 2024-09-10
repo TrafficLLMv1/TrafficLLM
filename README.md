@@ -8,29 +8,35 @@ Note: this code is based on [ChatGLM2](https://github.com/THUDM/ChatGLM2-6B) and
 
 ## Brief Introduction
 
-**TrafficLLM** is built upon a sophisticated fine-tuning framework using natural language and traffic data, which proposes the following techniques in TrafficLLM to enhance the utility of large language models in network traffic analysis.
+**TrafficLLM** is built upon a sophisticated fine-tuning framework using natural language and traffic data, which proposes the following techniques to enhance the utility of large language models in network traffic analysis.
 
 * **Traffic-Domain Tokenization.** To overcome the modality gap between natural language and heterogeneous traffic data, TrafficLLM introduces traffic-domain tokenization to process the diverse input of traffic detection and generation tasks for LLM adaptation. This mechanism effectively extends LLM’s native tokenizer by training specialized the tokenization model on large-scale traffic-domain corpora.
 * **Dual-Stage Tuning Pipeline.** TrafficLLM employs a dual-stage tuning pipeline to achieve LLM’s robust representation learning across different traffic-domain tasks. The pipeline trains LLM to understand instructions and learn task-related traffic patterns at different stages, which builds upon TrafficLLM task understanding and traffic reasoning abilities for diverse traffic detection and generation tasks.
-* **Extensible Adaptation with Parameter-Effective Fine-Tuning (EA-PEFT).** To adapt LLM for generalization to new traffic environments, TrafficLLM proposes an extensible adaptation with parameter-effective fine-tuning (EA-PEFT) to update model parameters with low overhead. The technique splits model capabilities in different PEFT models, which helps minimize the adaptation costs on dynamic scenarios raised by traffic pattern changes.
+* **Extensible Adaptation with Parameter-Effective Fine-Tuning (EA-PEFT).** To adapt LLM for generalization to new traffic environments, TrafficLLM proposes an extensible adaptation with parameter-effective fine-tuning (EA-PEFT) to update model parameters with low overhead. The technique splits model capabilities in different PEFT models, which helps minimize the costs on dynamic scenarios raised by traffic pattern changes.
 
 ## Getting Started
 
+<span id='all_catelogue'/>
+
 ### Table of Contents:
 
-* [1. Environment Preparation](#chapter-1)
-* [2. Training TrafficLLM](#chapter-2)
-  * [2.1. Preparing Pre-trained Checkpoint ](#chapter-2.1)
-  * [2.2. Preprocessing Dataset  ](#chapter-2.2)
-  * [2.3. Training Traffic-Domain Tokenizer (Optional) ](#chapter-2.3)
-  * [2.4. Neural Language Instruction Tuning](#chapter-2.4)
-  * [2.5. Task-Specific Traffic Tuning](#chapter-2.5)
-  * [2.6. Extensible Adaptation with PEFT (EA-PEFT)](#chapter-2.6)
-* [3. Evaluating TrafficLLM ](#chapter-3)
-  * [3.1. Preparing Checkpoints and Data ](#chapter-3.1)
-  * [3.2. Running Evaluation](#chapter-3.2)
+* <a href='#chapter-1'>1. Environment Preparation</a>
+* <a href='#chapter-2'>2. Training TrafficLLM</a>
+  * <a href='#chapter-2.1'>2.1. Preparing Pre-trained Checkpoint</a>
+  * <a href='#chapter-2.2'>2.2. Preprocessing Dataset</a>
+  * <a href='#chapter-2.3'>2.3. Training Traffic-Domain Tokenizer (Optional)</a>
+  * <a href='#chapter-2.4'>2.4. Neural Language Instruction Tuning</a>
+  * <a href='#chapter-2.5'>2.5. Task-Specific Traffic Tuning</a>
+  * <a href='#chapter-2.6'>2.6. Extensible Adaptation with PEFT (EA-PEFT)</a>
+* <a href='#chapter-3'>3. Evaluating TrafficLLM</a>
+  * <a href='#chapter-3.1'>3.1. Preparing Checkpoints and Data</a>
+  * <a href='#chapter-3.2'>3.2. Running Evaluation</a>
 
-### 1. Environment Preparation {#chapter-1}
+
+
+<span id='chapter-1'/>
+
+### 1. Environment Preparation <a href='#all_catelogue'>[Back to Top]</a>
 
 Please clone the repo and install the required environment by runing the following commands.
 
@@ -48,18 +54,24 @@ pip install -r requirements.txt
 pip install rouge_chinese nltk jieba datasets
 ```
 
-### 2. Training TrafficLLM {#chapter-2}
+<span id='chapter-2'/>
 
-TrafficLLM employs three core techniques: (1) *traffic-domain tokenization* to process instructions and traffic data, (2) *dual-stage tuning pipeline* to understand text semantics and learn traffic patterns across different tasks, and (3) *extensible adaptation with parameter-effective fine-tune* to update model parameters for new scenario adaptation.
+### 2. Training TrafficLLM <a href='#all_catelogue'>[Back to Top]</a>
 
-#### 2.1 Preparing Pre-trained Checkpoint {#chapter-2.1}
+TrafficLLM employs three core techniques: *traffic-domain tokenization* to process instructions and traffic data, *dual-stage tuning pipeline* to understand text semantics and learn traffic patterns across different tasks, and *extensible adaptation with parameter-effective fine-tune* to update model parameters for new scenario adaptation.
+
+<span id='chapter-2.1'/>
+
+#### 2.1 Preparing Pre-trained Checkpoint <a href='#all_catelogue'>[Back to Top]</a>
 
 TrafficLLM is trained based on existing open-sourced LLMs. Please follow the instructions to prepare the checkpoints.
 
 * `ChatGLM2`: Prepare the base model ChatGLM, which is an open-sourced LLM with light-wise deployment requirements. Please download its weights [here](https://huggingface.co/THUDM/chatglm2-6b). We generally utilize the v2 model with 6B parameters.
 * `Other LLMs`: To adapt other LLMs for traffic analysis tasks, you can reuse the [training data](datasets) in the repo and modify their training scripts according to the official instructions. For instance, [Llama2](https://github.com/meta-llama/llama-recipes/blob/main/src/llama_recipes/configs/datasets.py) is required to register the new dataset in the configs.
 
-#### 2.2 Preprocessing Dataset {#chapter-2.2}
+<span id='chapter-2.2'/>
+
+#### 2.2 Preprocessing Dataset <a href='#all_catelogue'>[Back to Top]</a>
 
 To extract suitable training data for LLM learning from the raw traffic datasets, we design specialized extractors to preprocess traffic datasets for different tasks. The preprocessing code contain the following parameters to config.
 
@@ -70,16 +82,16 @@ To extract suitable training data for LLM learning from the raw traffic datasets
 * `output_path`: Output training dataset path.
 * `output_name`: Output training dataset name.
 
-Please follow the command to use the code.
+This is an instance to preprocess datasets for packet-level traffic detection tasks.
 
 ```shell
 cd preprocess
 python preprocess_dataset.py --input /Your/Raw/Dataset/Path --dataset_name /Your/Raw/Dataset/Name --traffic_task detection --granularity packet-level --output_path /Your/Output/Dataset/Path --output_name /Your/Output/Dataset/Name
 ```
 
-This is an instance to preprocess datasets for packet-level traffic detection tasks.
+<span id='chapter-2.3'/>
 
-#### 2.3 Training Traffic-Domain Tokenizer (Optional) {#chapter-2.3}
+#### 2.3 Training Traffic-Domain Tokenizer (Optional) <a href='#all_catelogue'>[Back to Top]</a>
 
 TrafficLLM introduces a traffic-domain tokenizer to handle neural language and traffic data. If you want to train a custom tokenizer with your own dataset, please modify the `model_name` and `data_path` in the [code](tokenization/traffic_tokenizer.py).
 
@@ -93,7 +105,9 @@ cd tokenization
 python traffic_tokenizer.py
 ```
 
-#### 2.4 Neural Language Instruction Tuning {#chapter-2.4}
+<span id='chapter-2.4'/>
+
+#### 2.4 Neural Language Instruction Tuning <a href='#all_catelogue'>[Back to Top]</a>
 
 * **Prepare data:** The neural language instruction tuning data is our collected instruction datasets for traffic analysis task understanding.
 * **Start tuning:** After the aforementioned steps, you could start the first stage tuning by using [trafficllm_stage1.sh](dual-stage-tuning/trafficllm_stage1.sh). There is an example as below:
@@ -129,7 +143,9 @@ torchrun --standalone --nnodes=1 --nproc-per-node=$NUM_GPUS main.py \
     --pre_seq_len $PRE_SEQ_LEN
 ```
 
-#### 2.5 Task-Specific Traffic Tuning {#chapter-2.5}
+<span id='chapter-2.5'/>
+
+#### 2.5 Task-Specific Traffic Tuning <a href='#all_catelogue'>[Back to Top]</a>
 
 * **Prepare data:** The task-specific traffic tuning datasets are the training datasets extracted from the preprocessing step for different downstream tasks.
 * **Start tuning:** After the aforementioned steps, you could start the second stage tuning by using [trafficllm_stage2.sh](dual-stage-tuning/trafficllm_stage2.sh). There is an example as below:
@@ -165,7 +181,9 @@ torchrun --standalone --nnodes=1 --nproc-per-node=$NUM_GPUS main.py \
     --pre_seq_len $PRE_SEQ_LEN
 ```
 
-#### 2.6 Extensible Adaptation with PEFT (EA-PEFT) {#chapter-2.6}
+<span id='chapter-2.6'/>
+
+#### 2.6 Extensible Adaptation with PEFT (EA-PEFT) <a href='#all_catelogue'>[Back to Top]</a>
 
 TrafficLLM employs EA-PEFT to organize the parameter-effective fine-tuning (PEFT) models with an extensible adaptation, which can help TrafficLLM easily adapt to new environments. TrafficLLM adaptor allows flexible operations to update old models or register new tasks. 
 
@@ -181,14 +199,22 @@ cd EA-PEFT
 python ea-peft.py --model_name /Your/Base/Model/Path --tuning_data /Your/New/Dataset/Path --adaptation_task update --task_name MTD
 ```
 
-### 3. Evaluating TrafficLLM {#chapter-3}
+<span id='chapter-3'/>
 
-#### 3.1 Preparing Checkpoints and Data {#chapter-3.1}
+### 3. Evaluating TrafficLLM <a href='#all_catelogue'>[Back to Top]</a>
+
+<span id='chapter-3.1'/>
+
+### {#chapter-3}
+
+#### 3.1 Preparing Checkpoints and Data <a href='#all_catelogue'>[Back to Top]</a>
 
 * **Checkpoints:** You could try to evaluate TrafficLLM by using your own model or our released checkpoints.
 * **Data:** During the preprocessing step, we split test datasets and build label files for different datasets for evaluation. Please refer to the [preprocessing codes](preprocess/preprocess_dataset.py).
 
-#### 3.2 Running Evaluation {#chapter-3.2}
+<span id='chapter-3.2'/>
+
+#### 3.2 Running Evaluation <a href='#all_catelogue'>[Back to Top]</a>
 
 To measure TrafficLLM's effectiveness for different downstream tasks, please run the [evaluation codes](evaluation.py).
 
@@ -206,3 +232,6 @@ python evaluation.py --model_name /Your/Base/Model/Path --traffic_task detection
 
 
 
+## Acknowledgements
+
+Many thanks to the related work [ChatGLM2](https://github.com/THUDM/ChatGLM2-6B) and [Llama2](https://github.com/meta-llama/llama-recipes) that serves as foundations for our framework and code repository. The design of building TrafficLLM is inspired by [ET-BERT](https://github.com/linwhitehat/ET-BERT) and [GraphGPT](https://github.com/HKUDS/GraphGPT). Thanks for their wonderful works.
