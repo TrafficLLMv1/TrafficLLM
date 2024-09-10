@@ -58,7 +58,7 @@ pip install rouge_chinese nltk jieba datasets
 
 ### 2. Training TrafficLLM <a href='#all_catelogue'>[Back to Top]</a>
 
-TrafficLLM employs three core techniques: *traffic-domain tokenization* to process instructions and traffic data, *dual-stage tuning pipeline* to understand text semantics and learn traffic patterns across different tasks, and *extensible adaptation with parameter-effective fine-tune* to update model parameters for new scenario adaptation.
+TrafficLLM employs three core techniques: **traffic-domain tokenization** to process instructions and traffic data, **dual-stage tuning pipeline** to understand text semantics and learn traffic patterns across different tasks, and the **EA-PEFT** to update model parameters for new scenario adaptation.
 
 <span id='chapter-2.1'/>
 
