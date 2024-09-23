@@ -27,7 +27,7 @@ To build the natural language corpus as the human instructions in TrafficLLM, we
 
 | Mainstream Tasks   | Downstream Tasks             | Abbrev. | #Sample |
 | ------------------ | ---------------------------- | ------- | ------- |
-| Tracffic Detection | Malware Traffic Detection    | MTD     | 1.0K    |
+| Traffic Detection  | Malware Traffic Detection    | MTD     | 1.0K    |
 |                    | Botnet Detection             | BND     | 1.1K    |
 |                    | Malicious DoH Detection      | MDD     | 0.6K    |
 |                    | Web Attack Detection         | WAD     | 0.6K    |
@@ -56,8 +56,8 @@ To evaluate the performance of TrafficLLM on various network scenarios, we extra
 | ISCX VPN 2016    | Encrypted VPN Detection      | EVD     | 64.8K   |
 | ISCX Tor 2016    | Tor Behavior Detection       | TBD     | 40.0K   |
 | CSTNET 2023      | Encrypted App Classification | EAC     | 97.6K   |
-| CW-100 2018      | Website Fingerprinting       | WF      | 8.1K    |
-| APP-53 2023      | Concept Drift                | CD      | 21.5K   |
+| CW-100 2018      | Website Fingerprinting       | WF      | 7.4K    |
+| APP-53 2023      | Concept Drift                | CD      | 109.8K  |
 
 ## Getting Started
 
