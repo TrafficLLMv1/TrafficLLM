@@ -1,4 +1,4 @@
-# Generate packets with TrafficLLM and Scapy
+# Generating Packets with TrafficLLM and Scapy
 In this tutorial, we will see how we can leverage TrafficLLM to generate a pcap file of packets with the help of [Scapy](https://scapy.net/). We need:
 * The base model to build TrafficLLM: https://huggingface.co/THUDM/chatglm2-6b or other LLMs
 * The tuning checkpoints for traffic generation tasks: https://github.com/TrafficLLMv1/TrafficLLM/tree/master/models/chatglm2/peft
