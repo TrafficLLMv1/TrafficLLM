@@ -4,9 +4,9 @@ In this tutorial, we will see how we can leverage TrafficLLM to generate a pcap 
 * The tuning checkpoints for traffic generation tasks: https://github.com/TrafficLLMv1/TrafficLLM/tree/master/models/chatglm2/peft
 * The environments that installed Scapy: https://scapy.net/
 
-We use the `Malware Traffic Generation` task as an example. The checkpoints for generation tasks are trained by following https://github.com/TrafficLLMv1/TrafficLLM?tab=readme-ov-file#getting-started. You can follow the instructions to build your custom traffic generation capabilities.
+We use the `Malware Traffic Generation` task as an example. The checkpoints for generation tasks are trained by following [the training steps](https://github.com/TrafficLLMv1/TrafficLLM?tab=readme-ov-file#getting-started). You can follow the instructions to build your custom traffic generation capabilities.
 
-## Preparation
+## 1. Preparation
 Please clone the repo and install the required environment by runing the following commands.
 ```shell
 conda create -n trafficllm python=3.9
@@ -23,7 +23,7 @@ pip install rouge_chinese nltk jieba datasets
 
 ```
 
-## Create the directory
+## 2. Creating Directories
 The traffic generation tasks are required to create working directories to store the running data during generation.
 ```shell
 cd tutorials
@@ -31,8 +31,8 @@ mkdir tmp
 mkdir tmp/packet_generation tmp/flow_generation
 ```
 
-## Register the tasks and checkpoints
-After getting the checkpoints of traffic generation tasks, we can add the task name and checkpoints in the [config](config.json). TrafficLLM encapsulates traffic generation capabilities into two parts: header generation and payload generation. Each generation task must contain two checkpoint paths.
+## 3. Registering Tasks and Checkpoints
+After getting the checkpoints of traffic generation tasks, we can add the task name and checkpoints in the [config](config.json). TrafficLLM encapsulates traffic generation capabilities into two parts: header generation and payload generation.
 ```shell
 {
     "model_path": "../models/chatglm2/chatglm2-6b/",
@@ -60,8 +60,8 @@ After getting the checkpoints of traffic generation tasks, we can add the task n
 }
 ```
 
-## Generate pcap files
-We can now use the [generation code](generation.py) to generate the traffic with the terminal mode. Here is an example to generate a packet of `Neris` traffic.
+## 4. Generating Pcap Files
+We can now use the [generation code](generation.py) to generate the traffic with the **terminal mode**. Here is an example to generate a packet of `Neris`.
 
 ```shell
 python generation.py --config=config.json --prompt='Please generate a packet of Neris traffic.'
